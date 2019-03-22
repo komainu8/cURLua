@@ -1,6 +1,56 @@
 local ffi = require("ffi")
+local lcpp = require("lcpp")
 
 ffi.cdef[[
+#define __STD_TYPE		typedef
+#define __U32_TYPE		unsigned int
+#define __SLONGWORD_TYPE	long int
+#define __TIME_T_TYPE		__SYSCALL_SLONG_TYPE
+#define __SYSCALL_SLONG_TYPE	__SLONGWORD_TYPE
+
+__STD_TYPE __TIME_T_TYPE __time_t;
+__STD_TYPE __U32_TYPE __socklen_t;
+typedef __socklen_t socklen_t;
+
+#define CURL_TYPEOF_CURL_SOCKLEN_T socklen_t
+
+typedef CURL_TYPEOF_CURL_SOCKLEN_T curl_socklen_t;
+
+typedef __time_t time_t;
+
+#define MAX_IPADR_LEN sizeof("ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255")
+
+/*
+ * Curl_addrinfo is our internal struct definition that we use to allow
+ * consistent internal handling of this data. We use this even when the
+ * system provides an addrinfo structure definition. And we use this for
+ * all sorts of IPv4 and IPV6 builds.
+ */
+
+struct Curl_addrinfo {
+  int                   ai_flags;
+  int                   ai_family;
+  int                   ai_socktype;
+  int                   ai_protocol;
+  curl_socklen_t        ai_addrlen;   /* Follow rfc3493 struct addrinfo */
+  char                 *ai_canonname;
+  struct sockaddr      *ai_addr;
+  struct Curl_addrinfo *ai_next;
+};
+typedef struct Curl_addrinfo Curl_addrinfo;
+struct Curl_dns_entry {
+  Curl_addrinfo *addr;
+  /* timestamp == 0 -- CURLOPT_RESOLVE entry, doesn't timeout */
+  time_t timestamp;
+  /* use-counter, use Curl_resolv_unlock to release reference */
+  long inuse;
+};
+
+typedef int curl_socket_t;
+
+typedef int
+(*curl_closesocket_callback)(void *clientp, curl_socket_t item);
+
 struct connectdata {
   /* 'data' is the CURRENT Curl_easy using this connection -- take great
      caution that this might very well vary between different times this
