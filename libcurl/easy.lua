@@ -171,6 +171,13 @@ typedef enum {
   ssl_connection_complete
 } ssl_connection_state;
 
+#define CURL_TYPEOF_CURL_OFF_T long
+
+typedef CURL_TYPEOF_CURL_OFF_T curl_off_t;
+typedef int (*curl_seek_callback)(void *instream,
+                                  curl_off_t offset,
+                                  int origin); /* 'whence' */
+
 struct ssl_connect_data {
   /* Use ssl encrypted communications TRUE/FALSE, not necessarily using it atm
      but at least asked to or meaning to use it. See 'state' for the exact
