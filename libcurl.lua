@@ -13,4 +13,8 @@ function libcurl.easy_init()
   return curl.curl_easy_init()
 end
 
+function libcurl.easy_cleanup(data)
+  return curl.curl_easy_cleanup(data)
+end
+
 return libcurl
