@@ -13,7 +13,8 @@ end
 
 function TestLibcurl.test_easy_setopt()
   local curl = libcurl.easy_init()
-  local result = libcurl.easy_setopt(curl, 10002, "http://example.com")
-  luaunit.assertEquals(tonumber(result),0)
+  local result =
+    libcurl.easy_setopt(curl, ffi.C.CURLOPT_URL, "http://example.com")
+  luaunit.assertEquals(tonumber(result), ffi.C.CURLE_OK)
   libcurl.easy_cleanup(curl)
 end
