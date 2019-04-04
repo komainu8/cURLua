@@ -18,3 +18,11 @@ function TestLibcurl.test_easy_setopt()
   luaunit.assertEquals(tonumber(result), ffi.C.CURLE_OK)
   libcurl.easy_cleanup(curl)
 end
+
+function TestLibcurl.test_easy_perform()
+  local curl = libcurl.easy_init()
+  libcurl.easy_setopt(curl, ffi.C.CURLOPT_URL, "http://localhost")
+  local response = libcurl.easy_perform(curl)
+  luaunit.assertEquals(tonumber(response), ffi.C.CURLE_COULDNT_CONNECT)
+  libcurl.easy_cleanup(curl)
+end

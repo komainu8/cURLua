@@ -17,6 +17,10 @@ function libcurl.easy_setopt(handle, option, parameter)
   return curl.curl_easy_setopt(handle, option, parameter)
 end
 
+function libcurl.easy_perform(handle)
+  return curl.curl_easy_perform(handle)
+end
+
 function libcurl.easy_cleanup(data)
   return curl.curl_easy_cleanup(data)
 end
