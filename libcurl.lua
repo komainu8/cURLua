@@ -9,6 +9,10 @@ if not loaded then
   curl = ffi.load("libcurl.so.4")
 end
 
+function libcurl.global_init(kind)
+  return curl.curl_global_init(kind)
+end
+
 function libcurl.easy_init()
   return curl.curl_easy_init()
 end
