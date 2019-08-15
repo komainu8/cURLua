@@ -1102,4 +1102,6 @@ typedef enum {
 
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
+
+#define CURL_GLOBAL_SSL (1<<0) /* no purpose since since 7.57.0 */
 ]]

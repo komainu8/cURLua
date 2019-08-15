@@ -11,6 +11,10 @@ function TestLibcurl.test_easy_init()
   libcurl.easy_cleanup(curl)
 end
 
+function TestLibcurl.test_global_init()
+  libcurl.global_init(1)
+end
+
 function TestLibcurl.test_easy_setopt()
   local curl = libcurl.easy_init()
   local result =
